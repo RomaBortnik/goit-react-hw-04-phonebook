@@ -1,0 +1,5 @@
+.contactsList {
+  font-weight: 700;
+  display: flex;
+  flex-direction: column;
+}
