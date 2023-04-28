@@ -20,6 +20,9 @@ export const App = () => {
   const [filter, setFilter] = useState('');
 
   useEffect(() => {
+    if (contacts === INITIAL_VALUE) {
+      return;
+    }
     contacts.length === 0
       ? localStorage.removeItem(STORAGE_KEY)
       : localStorage.setItem(STORAGE_KEY, JSON.stringify(contacts));
@@ -33,13 +36,10 @@ export const App = () => {
 
     equalEl
       ? alert(`${name} is already in contacts`)
-      : setContacts(prevState => {
-          return [...prevState, { id: nanoid(), name, number }];
-        });
-  };
-
-  const handleFilterChange = event => {
-    setFilter(event.target.value);
+      : setContacts(prevState => [
+          ...prevState,
+          { id: nanoid(), name, number },
+        ]);
   };
 
   const contactsListFilter = () => {
@@ -60,7 +60,7 @@ export const App = () => {
       <h1 className="title">Phonebook</h1>
       <ContactForm addContact={addContact}></ContactForm>
       <h2 className="title">Contacts</h2>
-      <Filter onChange={handleFilterChange}></Filter>
+      <Filter onChange={e => setFilter(e.target.value)}></Filter>
       <ContactList
         filteredContactsList={filteredContactsList}
         deleteContact={deleteContact}
